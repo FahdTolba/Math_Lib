@@ -23,13 +23,14 @@ public:
 //	Arith_Entity op * (Arith_Entity) = 0;
 
 /*
-	+= // if + is overloaded does that implicitly overload += ??
+	+= 
 	-=
 	*=
 	/=
 	==
 */
 };
+
 
 class Number : public Arith_Entity{
 
@@ -55,26 +56,10 @@ class Number : public Arith_Entity{
 		memset(data, 0, size);
 	}
 
-	void operator = (Number N){ //override automatic copy
+	void operator = (Number N);//override automatic copy
 
-		if(size != N.size){
-			data = (char *)realloc(data, N.size);
-		}
-		size = N.size;
+	void operator = (int n);
 	
-		if(data && N.data)
-			memcpy(data, N.data, size);
-		else
-			printf("no memory copied\n");
-			//exception
-	}
-
-	void operator = (int n){ 
-		//tmp = big_endian(n); //we use big_endian
-		//memcpy(data, tmp, size);
-		*data = n;
-	}
-
 	bool operator == (int temp){
 		return !memcmp(data, &temp, sizeof(temp));
 	}
@@ -86,6 +71,8 @@ class Number : public Arith_Entity{
 	bool identical (Number N2){
 		return *this == N2 && data == N2.data; 
 	}
+
+	Number operator ++(int);
 
 	void print(){
 		if(size > sizeof(long)){
@@ -103,6 +90,9 @@ class Number : public Arith_Entity{
 		}
 	}	
 };
+
+
+
 
 
 class Polynomial : public Arith_Entity{
